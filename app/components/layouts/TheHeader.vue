@@ -13,7 +13,7 @@
       </div>
 
       <div class="navbar-menu" v-bind:class="{ 'is-active': isHeaderMenuActive }">
-        <div class="navbar-start">
+        <div class="navbar-start" v-show="isLoggedIn">
           <a class="navbar-item" @click="selectPage('/rooms')">
             Rooms
           </a>
@@ -29,17 +29,17 @@
 
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
+            <a class="navbar-link" v-show="isLoggedIn">
               <figure class="image is-32x32 has-background-black-bis">
-                <img src="https://next.nihongo-chushin.com/images/icon/default.png" alt="avatar">
+                <img :src="iconPath()" alt="avatar">
               </figure>
             </a>
 
-            <div class="navbar-dropdown">
+            <div class="navbar-dropdown" v-show="isLoggedIn">
               <a class="navbar-item" @click="selectPage('/myPage')">
                 My Page
               </a>
-              <hr class="navbar-divider">
+              <hr class="navbar-divider" v-show="isLoggedIn">
               <a class="navbar-item" @click="logout">
                 Logout
               </a>
@@ -47,7 +47,7 @@
           </div>
 
 
-          <div class="navbar-item">
+          <div class="navbar-item" v-show="!isLoggedIn">
             <div class="buttons">
               <a class="button is-primary" @click="selectPage('login')">
                 <strong>Log in</strong>
@@ -61,7 +61,11 @@
 </template>
 
 <script>
-  import Navigatable from "~/mixins/navigatable"
+  import {mapGetters, mapActions} from "vuex"
+  import Navigatable from "~/mixins/navigatable";
+  import iconGenerator from "~/libs/iconGenerator";
+  const LOGOUT_PATH = "/sessions";
+  const REDIRECT_PATH = "/login";
 
   export default {
     mixins: [Navigatable],
@@ -70,13 +74,24 @@
         menuActive: false,
       }
     },
+    computed: {
+      ...mapGetters(["userSession", "isLoggedIn"]),
+    },
     methods: {
+      ...mapActions(["loggedOut"]),
       toggleMenu() {
         this.updateIsHeaderMenuActive(!this.isHeaderMenuActive);
       },
       logout() {
         this.updateIsHeaderMenuActive(false);
-        console.log("click logout");
+        this.loggedOut();
+        this.$axios.$delete(LOGOUT_PATH);
+        this.$router.push({path: REDIRECT_PATH});
+      },
+      iconPath() {
+        if(!this.userSession) return;
+        const icon = new iconGenerator(this.userSession.icon);
+        return icon.path();
       }
     }
   }

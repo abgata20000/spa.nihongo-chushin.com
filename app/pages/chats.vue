@@ -12,6 +12,7 @@
   import CommentForm from "~/components/chats/CommentForm"
 
   export default {
+    mixins: [],
     components: {
       Room,
       Comments,

@@ -33,7 +33,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~/plugins/vue-textarea-autosize.js'],
+  plugins: ['~/plugins/vue-textarea-autosize.js', "~/plugins/axios.js"],
 
   /*
   ** Nuxt.js modules
@@ -50,6 +50,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: "http://localhost:3000/api/v1/"
   },
 
   /*
@@ -77,5 +78,8 @@ module.exports = {
       '@': rootPath,
       '~': rootPath,
     },
-  }
+  },
+  router: {
+    middleware: ["auth-cookie", "auth-login"],
+  },
 };

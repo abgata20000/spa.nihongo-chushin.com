@@ -4,7 +4,8 @@
 
 <script>
   export default {
-    components: {}
+    mixins: [],
+    components: {},
   }
 </script>
 <style scoped lang="scss">

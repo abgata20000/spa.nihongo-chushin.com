@@ -4,16 +4,21 @@
       <p>
         &copy; {{ new Date().getFullYear() }} — <span></span>abgata20000</span>
       </p>
+
     </div>
   </footer>
 </template>
 
 <script>
+  import {mapGetters, mapActions} from "vuex"
   export default {
     data() {
       return {
       }
-    }
+    },
+    computed: {
+      ...mapGetters(["userSession"]),
+    },
   }
 </script>
 <style scoped lang="scss">

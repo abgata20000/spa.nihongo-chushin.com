@@ -20,6 +20,7 @@
     "nuxt": "^2.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "universal-cookie": "^3.0.7",
     "vue-textarea-autosize": "^1.0.4"
   },
   "devDependencies": {
