@@ -38,6 +38,7 @@
 </script>
 <style scoped lang="scss">
   .icons-wrapper {
-
+    height: 300px;
+    overflow-y: scroll;
   }
 </style>
